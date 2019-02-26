@@ -12,7 +12,7 @@ public class WeatherAnalyser {
         else {
             double r1temp = Double.parseDouble(r1.get("TemperatureF"));
             double r2temp = Double.parseDouble(r2.get("TemperatureF"));
-            if(r1temp == -9999) return r2;
+            if (r1temp == -9999) return r2;
             else if (r2temp == -9999) return r1;
             else {
                 if (r1temp < r2temp) return r1;
@@ -51,44 +51,44 @@ public class WeatherAnalyser {
         return coldestFile;
     }
 
-//    private static CSVRecord getHottestOfTwo(CSVRecord r1, CSVRecord r2) {
-//        if (r1 == null) return r2;
-//        else {
-//            double r1temp = Double.parseDouble(r1.get("TemperatureF"));
-//            double r2temp = Double.parseDouble(r2.get("TemperatureF"));
-//            if (r1temp > r2temp) return r1;
-//            else return r2;
-//        }
-//    }
+    private static CSVRecord getHottestOfTwo(CSVRecord r1, CSVRecord r2) {
+        if (r1 == null) return r2;
+        else {
+            double r1temp = Double.parseDouble(r1.get("TemperatureF"));
+            double r2temp = Double.parseDouble(r2.get("TemperatureF"));
+            if (r1temp > r2temp) return r1;
+            else return r2;
+        }
+    }
 
-//    private static CSVRecord maxTempInFile(FileResource file) {
-//        CSVParser parser = file.getCSVParser();
-//        CSVRecord hottestRow = null;
-//        for (CSVRecord currentRow : parser) {
-//            hottestRow = getHottestOfTwo(hottestRow, currentRow);
-//        }
-//        return hottestRow;
-//    }
+    private static CSVRecord maxTempInFile(FileResource file) {
+        CSVParser parser = file.getCSVParser();
+        CSVRecord hottestRow = null;
+        for (CSVRecord currentRow : parser) {
+            hottestRow = getHottestOfTwo(hottestRow, currentRow);
+        }
+        return hottestRow;
+    }
 
-//    private static CSVRecord maxTempInManyFiles() {
-//        DirectoryResource dr = new DirectoryResource();
-//        CSVRecord hottestRow = null;
-//        for (File weatherFile : dr.selectedFiles()) {
-//            FileResource weatherFileResource = new FileResource(weatherFile);
-//            CSVRecord currentRow = maxTempInFile(weatherFileResource);
-//            hottestRow = getHottestOfTwo(hottestRow, currentRow);
-//        }
-//        return hottestRow;
-//    }
+    private static CSVRecord maxTempInManyFiles() {
+        DirectoryResource dr = new DirectoryResource();
+        CSVRecord hottestRow = null;
+        for (File weatherFile : dr.selectedFiles()) {
+            FileResource weatherFileResource = new FileResource(weatherFile);
+            CSVRecord currentRow = maxTempInFile(weatherFileResource);
+            hottestRow = getHottestOfTwo(hottestRow, currentRow);
+        }
+        return hottestRow;
+    }
 
     private static CSVRecord getLowestHumidityOfTwo(CSVRecord r1, CSVRecord r2) {
         if (r1 == null) return r2;
         if (r1.get("Humidity").equals("N/A")) return r2;
         if (r2.get("Humidity").equals("N/A")) return r1;
-            double r1hum = Double.parseDouble(r1.get("Humidity"));
-            double r2hum = Double.parseDouble(r2.get("Humidity"));
-            if (r1hum < r2hum) return r1;
-            else return r2;
+        double r1hum = Double.parseDouble(r1.get("Humidity"));
+        double r2hum = Double.parseDouble(r2.get("Humidity"));
+        if (r1hum <= r2hum) return r1;
+        else return r2;
     }
 
     private static CSVRecord lowestHumidityInFile(CSVParser parser) {
@@ -120,13 +120,62 @@ public class WeatherAnalyser {
         return lowestHumidityFile;
     }
 
-    public static void main(String[] args) {
-//        System.out.println("File with coldest weather: " + fileWithColdestTemperature());
-//        System.out.println("File with lowest humidity: " + lowestHumidityInManyFiles());
+    private static double averageTemperatureInFile(CSVParser parser) {
 
-        FileResource fr = new FileResource("resources/nc_weather/2014/weather-2014-01-20.csv");
+        double number = 0;
+        double sum = 0;
+        double temp;
+        for (CSVRecord r : parser) {
+            number++;
+            try {
+                temp = Double.parseDouble(r.get("TemperatureF"));
+            } catch (NumberFormatException e) {
+                temp = 0;
+            }
+            if (temp != -9999) sum += temp;
+        }
+
+        return sum / number;
+    }
+
+    private static double averageTemperatureWithHighHumidityInFile(CSVParser parser, int value) {
+        double number = 0;
+        double sum = 0;
+        double temp;
+        for (CSVRecord record : parser) {
+            double humidity = Double.parseDouble(record.get("Humidity"));
+            if (humidity >= value) {
+                number++;
+                try {
+                    temp = Double.parseDouble(record.get("TemperatureF"));
+                } catch (NumberFormatException e) {
+                    temp = 0;
+                }
+                if (temp != -9999) sum += temp;
+            }
+        }
+        if (sum == 0) System.out.println("No temperatures with that humidity");
+        return sum / number;
+    }
+
+    public static void main(String[] args) {
+//        FileResource fr = new FileResource("resources/nc_weather/2014/weather-2014-05-01.csv");
+//        System.out.println(minTempInFile(fr).get("TemperatureF"));
+//
+//        System.out.println("File with coldest weather: " + fileWithColdestTemperature());
+//
+//        FileResource fr = new FileResource("resources/nc_weather/2014/weather-2014-04-01.csv");
+//        CSVParser parser = fr.getCSVParser();
+//        System.out.println(lowestHumidityInFile(parser).get("DateUTC"));
+//
+//        System.out.println(lowestHumidityInManyFiles());
+//
+//        FileResource fr = new FileResource("resources/nc_weather/2014/weather-2014-06-01.csv");
+//        CSVParser parser = fr.getCSVParser();
+//        System.out.println(averageTemperatureInFile(parser));
+
+        FileResource fr = new FileResource("resources/nc_weather/2014/weather-2014-03-30.csv");
         CSVParser parser = fr.getCSVParser();
-        CSVRecord r = lowestHumidityInFile(parser);
-        System.out.println(r.get("Humidity") + r.get("DateUTC"));
+        System.out.println(averageTemperatureWithHighHumidityInFile(parser, 80));
     }
 }
