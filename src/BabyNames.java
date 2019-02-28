@@ -1,6 +1,9 @@
+import edu.duke.DirectoryResource;
 import edu.duke.FileResource;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
+
+import java.io.File;
 
 public class BabyNames {
 
@@ -55,26 +58,66 @@ public class BabyNames {
         System.out.println(String.format("%s born in %s would be %s if she was born in %s.", name, year, newName, newYear));
     }
 
+    private static int yearOfHighestRank(String name, String sexMF) {
+        DirectoryResource dr = new DirectoryResource();
+        int highestRank = -1;
+        int yearOFhighestRank = -1;
+        for (File nameFile : dr.selectedFiles()) {
+            int year = Integer.parseInt(nameFile.getName().substring(3, 7));
+            int currentRank = getRank(year, name, sexMF);
+            if (highestRank == -1 && currentRank != -1) {
+                highestRank = currentRank;
+                yearOFhighestRank = year;
+            } else {
+                if (currentRank < highestRank & currentRank != -1) {
+                    highestRank = currentRank;
+                    yearOFhighestRank = year;
+                }
+            }
+
+        }
+        System.out.println(yearOFhighestRank);
+        return highestRank;
+    }
+
+    private static double getAverageRank(String name, String sexMF) {
+        DirectoryResource dr = new DirectoryResource();
+        double rank = -1.0;
+        double rankSum = 0;
+        double nameCount = 0;
+        for (File nameFile : dr.selectedFiles()) {
+            int year = Integer.parseInt(nameFile.getName().substring(3, 7));
+            double currentRank = getRank(year, name, sexMF);
+            if (currentRank != -1) rankSum += currentRank;
+            nameCount++;
+        }
+        if (nameCount != 0) rank = rankSum / nameCount;
+        return rank;
+    }
+
+    private static void getTotalBirthsRankedHigher(int year, String name, String sexMF) {
+        FileResource fr = new FileResource("resources/babynames/us_babynames_by_year/yob" + year + ".csv");
+        int numberOfBirth = 0;
+        for (CSVRecord r : fr.getCSVParser(false)) {
+            if (r.get(1).equals(sexMF)) {
+                if (!r.get(0).equals(name))
+                    numberOfBirth += Integer.parseInt(r.get(2));
+                else {
+                    break;
+                }
+            }
+        }
+        System.out.println(numberOfBirth);
+    }
+
     public static void main(String[] args) {
-//        FileResource fr = new FileResource("resources/babynames/us_babynames_test/example-small.csv");
+//        FileResource fr = new FileResource("resources/babynames/us_babynames_by_year/yob1905.csv");
 //        totalBirths(fr.getCSVParser(false));
-
-//        System.out.println(getRank(1880, "Mary", "F"));             //1
-//        System.out.println(getRank(1880, "Emma", "F"));             //3
-//        System.out.println(getRank(1880, "Wilma", "F"));            //942
-//        System.out.println(getRank(1880, "John", "M"));             //1
-//        System.out.println(getRank(1880, "James", "M"));            //3
-//        System.out.println(getRank(1880, "Zachariah", "M"));        //1058
-//        System.out.println(getRank(1880, "Nebuchadnezzar", "M"));   //-1
-
-//        System.out.println(getName(1880, 1, "F"));   //Mary
-//        System.out.println(getName(1880, 3, "F"));   //Emma
-//        System.out.println(getName(1880, 942, "F")); //Wilma
-//        System.out.println(getName(1880, 1, "M"));   //John
-//        System.out.println(getName(1880, 3, "M"));   //James
-//        System.out.println(getName(1880, 1058, "M"));//Zachariah
-//        System.out.println(getName(1880, 1059, "M"));//NO NAME
-
-        whatIsNameInYear("Isabella", 2012, 2014, "F");
+//        System.out.println(getRank(1971, "Frank", "M"));
+//        System.out.println(getName(1982, 450, "M"));
+//        whatIsNameInYear("Owen", 1974, 2014, "M");
+//        System.out.println(yearOfHighestRank("Mich", "M"));
+//        System.out.println(getAverageRank("Robert", "M"));
+        getTotalBirthsRankedHigher(1990, "Drew", "M");
     }
 }
