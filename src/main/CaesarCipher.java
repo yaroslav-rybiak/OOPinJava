@@ -1,6 +1,6 @@
-public class CaesarCipher {
+class CaesarCipher {
 
-    private static String encrypt(String input, int key) {
+    String encrypt(String input, int key) {
         String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         String newAlphabet = alphabet.substring(key) + alphabet.substring(0, key);
         StringBuilder sb = new StringBuilder(input);
@@ -16,7 +16,7 @@ public class CaesarCipher {
         return sb.toString();
     }
 
-    private static String encryptTwoKeys(String input, int key1, int key2) {
+    String encryptTwoKeys(String input, int key1, int key2) {
         String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         String newAlphabet1 = alphabet.substring(key1) + alphabet.substring(0, key1);
         String newAlphabet2 = alphabet.substring(key2) + alphabet.substring(0, key2);
@@ -39,9 +39,5 @@ public class CaesarCipher {
             }
         }
         return sb.toString();
-    }
-
-    public static void main(String[] args) {
-        System.out.println(encryptTwoKeys("At noon be in the conference room with your hat on for a surprise party. YELL LOUD!", 8, 21));
     }
 }
