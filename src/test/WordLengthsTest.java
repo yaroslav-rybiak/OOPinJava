@@ -1,7 +1,7 @@
 import edu.duke.FileResource;
 import org.junit.Test;
 
-import static junit.framework.TestCase.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 public class WordLengthsTest {
     private FileResource resource = new FileResource("resources/smallHamlet.txt");
@@ -9,7 +9,7 @@ public class WordLengthsTest {
 
     @Test
     public void testCountWordLengths() {
-        counter =  WordLengths.countWordLengths(resource, counter);
+        counter = WordLengths.countWordLengths(resource, counter);
         assertEquals(2, counter[2]);
         assertEquals(3, counter[3]);
         assertEquals(2, counter[4]);
