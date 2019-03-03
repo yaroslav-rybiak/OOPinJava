@@ -35,7 +35,6 @@ public class CaesarBreaker {
         } else {
             key = 26 - (4 - eIndex);
         }
-        System.out.println(key);
         CaesarCipher cc = new CaesarCipher(26 - key);
         return cc.encrypt(encryptedString);
     }
