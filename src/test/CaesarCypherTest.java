@@ -16,5 +16,6 @@ public class CaesarCypherTest {
     public void testEncryptTwoKeys() {
         assertEquals("Zbzbzbz", cc.encryptTwoKeys("Aaaaaaa", 25, 1));
         assertEquals("Aeaeaea", cc.encryptTwoKeys("Ccccccc", 24, 2));
+        assertEquals("Run like wild to beat the wind", cc.encryptTwoKeys("Top ncmy qkff vi vguv vbg ycpx", 24, 6));
     }
 }
