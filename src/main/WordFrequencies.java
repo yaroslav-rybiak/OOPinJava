@@ -17,6 +17,7 @@ public class WordFrequencies {
         myFreqs.clear();
         FileResource fr = new FileResource();
         for (String word: fr.words()) {
+            word = word.toLowerCase();
             if(!myWords.contains(word)) {
                 myWords.add(word);
                 myFreqs.add(1);
@@ -46,6 +47,7 @@ public class WordFrequencies {
     public static void main(String[] args) {
         WordFrequencies wf = new WordFrequencies();
         wf.findUnique();
+        System.out.println("Uniques words: " + wf.myWords.size());
         wf.findIndexOfMax();
 
     }
