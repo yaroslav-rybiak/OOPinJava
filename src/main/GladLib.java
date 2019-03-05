@@ -13,7 +13,7 @@ public class GladLib {
     private Random myRandom;
 
     private static String dataSourceURL = "http://dukelearntoprogram.com/course3/data";
-    private static String dataSourceDirectory = "resources/gladlibData";
+    private static String dataSourceDirectory = "resources/gladlib/data";
 
     public GladLib(){
         initializeFromSource(dataSourceDirectory);
