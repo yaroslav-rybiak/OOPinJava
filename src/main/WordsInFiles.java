@@ -40,14 +40,56 @@ public class WordsInFiles {
         }
     }
 
+    private int maxNumber() {
+        int max = 0;
+        String word = "";
+        for (Entry<String, ArrayList<String>> e: fileMatcher.entrySet()) {
+            int current = e.getValue().size();
+            if(current > max) {
+                max = current;
+                word = e.getKey();
+            }
+        }
+        System.out.println(word);
+        return max;
+    }
+
+    private ArrayList<String> wordsInNumFiles(int number) {
+        ArrayList<String> wordList = new ArrayList<>();
+        for (Entry<String, ArrayList<String>> e: fileMatcher.entrySet()) {
+            if (e.getValue().size() == number) {
+                wordList.add(e.getKey());
+            }
+        }
+
+        return wordList;
+    }
+
+    private void printFilesIn(String word) {
+        for (Entry<String, ArrayList<String>> e: fileMatcher.entrySet()) {
+            if(e.getKey().equals(word)) {
+                for(String file: e.getValue()) {
+                    System.out.println(file);
+                }
+            }
+        }
+    }
+
     public static void main(String[] args) throws Exception {
         WordsInFiles wif = new WordsInFiles();
         wif.buildWordFileMap();
 
-        for(Entry<String, ArrayList<String>> e: wif.fileMatcher.entrySet()) {
-            System.out.println(e.getKey() + " " + e.getValue());
+//        for(Entry<String, ArrayList<String>> e: wif.fileMatcher.entrySet()) {
+//            System.out.println(e.getKey() + " " + e.getValue());
+//        }
+//
+//        System.out.println(wif.maxNumber());
+//        ArrayList<String> words = wif.wordsInNumFiles(2);
+//        for (String word: words) {
+//            System.out.println(word);
+//        }
 
-        }
+        wif.printFilesIn("cats");
     }
 
 }
