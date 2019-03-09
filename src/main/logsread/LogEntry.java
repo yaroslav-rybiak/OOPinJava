@@ -1,14 +1,15 @@
+package logsread;
+
+import java.util.ArrayList;
+import java.util.Date;
 
 /**
- * Write a description of class LogRecord here.
+ * Allows to read server logs and to store data in java objects.
  *
- * @author (your name)
- * @version (a version number or a date)
+ * @author (Yaroslav Rybiak)
+ * @version (09.03.2019)
  */
-
-import  java.util.*;
-public class LogEntry
-{
+public class LogEntry {
     private String ipAddress;
     private Date accessTime;
     private String request;
@@ -21,21 +22,24 @@ public class LogEntry
         request = req;
         statusCode = status;
         bytesReturned = bytes;
-
     }
 
     public String getIpAddress() {
         return ipAddress;
     }
+
     public Date getAccessTime() {
         return accessTime;
     }
+
     public String getRequest() {
         return request;
     }
+
     public int getStatusCode() {
         return statusCode;
     }
+
     public int getBytesReturned() {
         return bytesReturned;
     }

@@ -1,10 +1,12 @@
+package logsread;
+
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
 /**
- * Allows to read server logs and to store data in java objects.
+ * Allows to convert lines from log files to LogEntry objects
  *
  * @author (Yaroslav Rybiak)
  * @version (09.03.2019)
