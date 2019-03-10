@@ -3,6 +3,7 @@ package logsread;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static org.junit.Assert.assertEquals;
 
@@ -35,6 +36,11 @@ public class LogAnalyzerTest {
     }
 
     @Test
+    public void testCountVisitsPerIP() {
+        assertEquals(75, la.countVisitsPerIP().size());
+    }
+
+    @Test
     public void testUniqueIPVisitsOnDay() {
         assertEquals(7, la.uniqueIPVisitsOnDay("Mar 15"));
         assertEquals(16, la.uniqueIPVisitsOnDay("Mar 17"));
@@ -51,5 +57,43 @@ public class LogAnalyzerTest {
     @Test
     public void testCountUniqueIPsInRange() {
         assertEquals(4, la.countUniqueIPsInRange(300, 399));
+    }
+
+    @Test
+    public void testMostNumberVisitsByIP() {
+        HashMap<String, Integer> map = la.countVisitsPerIP();
+        assertEquals(133, la.mostNumberVisitsByIP(map));
+    }
+
+    @Test
+    public void testIPsMostVisits() {
+        ArrayList<String> expected = new ArrayList<>();
+        expected.add("84.190.182.222");
+        HashMap<String, Integer> map = la.countVisitsPerIP();
+        ArrayList<String> actual = la.iPsMostVisits(map);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testIPsForDays() {
+        HashMap<String, ArrayList<String>> map = la.iPsForDays();
+        assertEquals(23, map.get("Mar 15").size());
+        assertEquals(25, map.get("Mar 16").size());
+        assertEquals(72, map.get("Mar 17").size());
+    }
+
+    @Test
+    public void testDayWithMostIPVisits() {
+        HashMap<String, ArrayList<String>> map = la.iPsForDays();
+        assertEquals("Mar 24", la.dayWithMostIPVisits(map));
+    }
+
+    @Test
+    public void testIPsWithMostVisitsOnDay() {
+        HashMap<String, ArrayList<String>> map = la.iPsForDays();
+        ArrayList<String> actual = la.iPsWithMostVisitsOnDay(map, "Mar 17");
+        ArrayList<String> expected = new ArrayList<>();
+        expected.add("200.129.163.70");
+        assertEquals(expected, actual);
     }
 }
