@@ -57,4 +57,30 @@ public class LogAnalyzer {
         }
         return unique.size();
     }
+
+    ArrayList<Integer> printAllHigherThanNum(int num) {
+        ArrayList<Integer> higher = new ArrayList<>();
+        int statusCode;
+        for (LogEntry record : records) {
+            statusCode = record.getStatusCode();
+            if (statusCode > num && !higher.contains(statusCode)) {
+                higher.add(statusCode);
+            }
+        }
+        return higher;
+    }
+
+    int countUniqueIPsInRange(int min, int max) {
+        ArrayList<String> uniqueInRange = new ArrayList<>();
+        int statusCode;
+        String ip;
+        for (LogEntry record : records) {
+            statusCode = record.getStatusCode();
+            ip = record.getIpAddress();
+            if ((statusCode >= min && statusCode <= max) && !uniqueInRange.contains(ip)) {
+                uniqueInRange.add(ip);
+            }
+        }
+        return uniqueInRange.size();
+    }
 }

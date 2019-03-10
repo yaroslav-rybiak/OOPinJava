@@ -2,6 +2,8 @@ package logsread;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -35,6 +37,19 @@ public class LogAnalyzerTest {
     @Test
     public void testUniqueIPVisitsOnDay() {
         assertEquals(7, la.uniqueIPVisitsOnDay("Mar 15"));
+        assertEquals(16, la.uniqueIPVisitsOnDay("Mar 17"));
         assertEquals(5, la.uniqueIPVisitsOnDay("Mar 26"));
+    }
+
+    @Test
+    public void testPrintAllHigherThanNum() {
+        ArrayList<Integer> list = new ArrayList<>();
+        list.add(404);
+        assertEquals(list, la.printAllHigherThanNum(400));
+    }
+
+    @Test
+    public void testCountUniqueIPsInRange() {
+        assertEquals(4, la.countUniqueIPsInRange(300, 399));
     }
 }
