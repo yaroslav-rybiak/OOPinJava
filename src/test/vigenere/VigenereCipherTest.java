@@ -6,14 +6,14 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 public class VigenereCipherTest {
-
-
+    
     @Test
     public void testEncrypt() {
-        int[] key = {1, 2, 3, 4};
+        int[] key = {17, 14, 12, 4};
+        FileResource fr = new FileResource("resources/vigenere/titus-small.txt");
+        String text = fr.asString();
         VigenereCipher vc = new VigenereCipher(key);
-        String encrypted = vc.encrypt("aaaa");
-        assertEquals("bcde", encrypted);
+        assertEquals("Tcmp-pxety", vc.encrypt(text).substring(0, 10));
     }
 
     @Test
