@@ -1,60 +1,55 @@
 package vigenere;
 
-import edu.duke.FileResource;
-
-class CaesarCipher {
-
-    private int key;
-
-    CaesarCipher(int key) {
-        this.key = key;
+public class CaesarCipher {
+    private String alphabet;
+    private String shiftedAlphabet;
+    private int theKey;
+    
+    public CaesarCipher(int key) {
+        theKey = key;
+        alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        shiftedAlphabet = alphabet.substring(key) +
+                            alphabet.substring(0,key);
+        alphabet = alphabet + alphabet.toLowerCase();
+        shiftedAlphabet = shiftedAlphabet + shiftedAlphabet.toLowerCase();
     }
-
-    String encrypt(String input) {
-        //Make a StringBuilder with message (encrypted)
-        StringBuilder encrypted = new StringBuilder(input);
-        //Write down the alphabet
-        String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        //Compute the shifted alphabet
-        String shiftedAlphabet = alphabet.substring(key) +
-                alphabet.substring(0, key);
-        //Count from 0 to < length of encrypted, (call it i)
-        for (int i = 0; i < encrypted.length(); i++) {
-            //Look at the ith character of encrypted (call it currChar)
-            boolean isUp = false;
-            char currChar = Character.toUpperCase(encrypted.charAt(i));
-            if (currChar == encrypted.charAt(i)) isUp = true;
-            //Find the index of currChar in the alphabet (call it idx)
-            int idx = alphabet.indexOf(currChar);
-            //If currChar is in the alphabet
-            if (idx != -1) {
-                //Get the idxth character of shiftedAlphabet (newChar)
-                char newChar = shiftedAlphabet.charAt(idx);
-                //Replace the ith character of encrypted with newChar
-                if (isUp) {
-                    encrypted.setCharAt(i, newChar);
-                } else {
-                    encrypted.setCharAt(i, Character.toLowerCase(newChar));
-                }
-            }
-            //Otherwise: do nothing
+    
+    private char transformLetter(char c, String from, String to) {
+        int idx = from.indexOf(c);
+        if (idx != -1) {
+            return to.charAt(idx);
         }
-        //Your answer is the String inside of encrypted
-        return encrypted.toString();
+        return c;
     }
-
-    String decrypt(String input) {
-        key = 26 - key;
-        return encrypt(input);
+    
+    public char encryptLetter(char c) {
+        return transformLetter(c, alphabet, shiftedAlphabet);
     }
-
-    String encrypt(FileResource fr) {
-        return encrypt(fr.asString());
+    
+    public char decryptLetter(char c) {
+        return transformLetter(c, shiftedAlphabet, alphabet);
     }
-
-    String decrypt(FileResource fr) {
-        key = 26 - key;
-        return encrypt(fr.toString());
+    
+    private String transform(String input, String from, String to){
+        StringBuilder sb = new StringBuilder(input);
+        for (int i = 0; i < sb.length(); i++) {
+            char c = sb.charAt(i);
+            c = transformLetter(c, from, to);
+            sb.setCharAt(i, c);
+        }
+        return sb.toString();
     }
+    
+    public String encrypt(String input) {
+        return transform(input, alphabet, shiftedAlphabet);
+    }
+    
+    public String decrypt(String input) {
+        return transform(input, shiftedAlphabet, alphabet);
+    }
+    
+    public String toString() {
+        return "" + theKey;
+    }
+    
 }
-
