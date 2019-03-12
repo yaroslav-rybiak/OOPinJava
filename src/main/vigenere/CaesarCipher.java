@@ -1,5 +1,7 @@
 package vigenere;
 
+import edu.duke.FileResource;
+
 class CaesarCipher {
 
     private int key;
@@ -44,6 +46,15 @@ class CaesarCipher {
     String decrypt(String input) {
         key = 26 - key;
         return encrypt(input);
+    }
+
+    String encrypt(FileResource fr) {
+        return encrypt(fr.asString());
+    }
+
+    String decrypt(FileResource fr) {
+        key = 26 - key;
+        return encrypt(fr.toString());
     }
 }
 
