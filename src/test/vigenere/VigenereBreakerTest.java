@@ -1,10 +1,13 @@
 package vigenere;
 
+import edu.duke.FileResource;
 import org.junit.Test;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 public class VigenereBreakerTest {
+
     @Test
     public void testSliceString() {
         VigenereBreaker vb = new VigenereBreaker();
@@ -20,5 +23,14 @@ public class VigenereBreakerTest {
         assertEquals("chm", vb.sliceString("abcdefghijklm", 2, 5));
         assertEquals("di", vb.sliceString("abcdefghijklm", 3, 5));
         assertEquals("ej", vb.sliceString("abcdefghijklm", 4, 5));
+    }
+
+    @Test
+    public void testTryKeyLength() {
+        VigenereBreaker vb = new VigenereBreaker();
+        FileResource fr = new FileResource("resources/vigenere/athens_keyflute.txt");
+        int[] actual = vb.tryKeyLength(fr.asString(), 5, 'e');
+        int[] expected = {5, 11, 20, 19, 4};
+        assertArrayEquals(expected, actual);
     }
 }
