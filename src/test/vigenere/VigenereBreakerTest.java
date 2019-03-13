@@ -33,4 +33,11 @@ public class VigenereBreakerTest {
         int[] expected = {5, 11, 20, 19, 4};
         assertArrayEquals(expected, actual);
     }
+
+    @Test
+    public void testBreakVigenere() {
+        VigenereBreaker vb = new VigenereBreaker();
+        String decrypted = vb.breakVigenere("resources/vigenere/athens_keyflute.txt", 5, 'e');
+        assertEquals("SCENE II", decrypted.substring(0, 8));
+    }
 }
