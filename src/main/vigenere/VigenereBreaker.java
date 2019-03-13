@@ -1,12 +1,12 @@
 package vigenere;
 
-import java.util.*;
-import edu.duke.*;
-
 public class VigenereBreaker {
-    public String sliceString(String message, int whichSlice, int totalSlices) {
-        //REPLACE WITH YOUR CODE
-        return "WRITE ME!";
+    public String sliceString(String message, int start, int step) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = start; i < message.length(); i += step) {
+            sb.append(message.charAt(i));
+        }
+        return sb.toString();
     }
 
     public int[] tryKeyLength(String encrypted, int klength, char mostCommon) {
@@ -15,8 +15,8 @@ public class VigenereBreaker {
         return key;
     }
 
-    public void breakVigenere () {
+    public void breakVigenere() {
         //WRITE YOUR CODE HERE
     }
-    
+
 }
