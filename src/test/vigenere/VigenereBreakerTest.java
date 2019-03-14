@@ -37,7 +37,7 @@ public class VigenereBreakerTest {
     @Test
     public void testBreakVigenere() {
         VigenereBreaker vb = new VigenereBreaker();
-        String decrypted = vb.breakVigenere("resources/vigenere/athens_keyflute.txt", 5, 'e');
+        String decrypted = vb.breakVigenere("resources/vigenere/athens_keyflute.txt", "resources/vigenere/dictionaries/English", 'e');
         assertEquals("SCENE II", decrypted.substring(0, 8));
     }
 }
