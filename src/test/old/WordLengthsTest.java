@@ -1,4 +1,7 @@
+package old;
+
 import edu.duke.FileResource;
+import old.WordLengths;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

@@ -1,3 +1,6 @@
+package old;
+
+import old.BabyNames;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

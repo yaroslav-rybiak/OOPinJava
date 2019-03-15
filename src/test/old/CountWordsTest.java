@@ -1,3 +1,6 @@
+package old;
+
+import old.CountWords;
 import org.junit.Test;
 
 import java.util.Map;

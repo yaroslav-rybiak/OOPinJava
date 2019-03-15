@@ -1,3 +1,6 @@
+package old;
+
+import old.CharactersInPlay;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

@@ -1,3 +1,5 @@
+package old;
+
 class WordPlay {
 
     static boolean isVowel(char c) {

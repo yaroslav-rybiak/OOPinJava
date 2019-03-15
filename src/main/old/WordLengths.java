@@ -1,3 +1,5 @@
+package old;
+
 import edu.duke.FileResource;
 
 class WordLengths {
