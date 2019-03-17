@@ -30,14 +30,15 @@ public class EarthQuakeMap extends PApplet {
         Feature kosciolFeature = new PointFeature(kosciolLocation);
         kosciolFeature.addProperty("year", "1347");
         Marker kosciolMarker = new SimplePointMarker(kosciolLocation, kosciolFeature.getProperties());
+        kosciolMarker.setColor(color(50, 50, 200));
 
         //sukiennice
         Location sukienniceLocation = new Location(50.0616f, 19.9373f);
         Feature sukienniceFeature = new PointFeature(sukienniceLocation);
         sukienniceFeature.addProperty("year", "1344");
         Marker sukienniceMarker = new SimplePointMarker(sukienniceLocation, sukienniceFeature.getProperties());
+        sukienniceMarker.setColor(color(50, 200, 50));
 
-        
         map.addMarkers(kosciolMarker, sukienniceMarker);
     }
 
