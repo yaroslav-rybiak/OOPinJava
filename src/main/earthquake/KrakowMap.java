@@ -10,12 +10,12 @@ import de.fhpotsdam.unfolding.providers.OpenStreetMap;
 import de.fhpotsdam.unfolding.utils.MapUtils;
 import processing.core.PApplet;
 
-public class EarthQuakeMap extends PApplet {
+public class KrakowMap extends PApplet {
 
     private UnfoldingMap map;
 
     public static void main(String[] args) {
-        EarthQuakeMap eqm = new EarthQuakeMap();
+        KrakowMap eqm = new KrakowMap();
         PApplet.runSketch(new String[]{"EarthQuakeMap"}, eqm);
     }
 
