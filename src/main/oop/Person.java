@@ -1,16 +1,6 @@
 package oop;
 
-public abstract class Person
+public interface Person
 {
-	private String name; 
-	
-	Person(String name)
-	{ 
-		this.name = name; 
-	}
-
-	public String getName() {
-		return this.name;
-	}
-	
+	public abstract String getName();
 }
