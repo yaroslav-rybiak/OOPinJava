@@ -1,6 +1,5 @@
 package oop;
 
-public interface Person
-{
-	public abstract String getName();
+public interface Person {
+    String getName();
 }
