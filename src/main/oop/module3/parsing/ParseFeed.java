@@ -1,4 +1,4 @@
-package earthquake.parsing;
+package oop.module3.parsing;
 
 import de.fhpotsdam.unfolding.data.Feature;
 import de.fhpotsdam.unfolding.data.PointFeature;

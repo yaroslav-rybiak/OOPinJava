@@ -1,4 +1,4 @@
-package earthquake;
+package oop.module3;
 //Java utilities libraries
 
 import de.fhpotsdam.unfolding.UnfoldingMap;
@@ -8,7 +8,7 @@ import de.fhpotsdam.unfolding.marker.SimplePointMarker;
 import de.fhpotsdam.unfolding.providers.Google;
 import de.fhpotsdam.unfolding.providers.MBTilesMapProvider;
 import de.fhpotsdam.unfolding.utils.MapUtils;
-import earthquake.parsing.ParseFeed;
+import oop.module3.parsing.ParseFeed;
 import processing.core.PApplet;
 
 import java.util.ArrayList;
@@ -22,16 +22,16 @@ import java.util.List;
 
 /**
  * EarthquakeCityMap
- * An application with an interactive map displaying earthquake data.
+ * An application with an interactive map displaying oop.module3.earthquake data.
  * Author: UC San Diego Intermediate Software Development MOOC team
  *
  * @author Your name here
  * Date: July 17, 2015
  */
 public class EarthquakeCityMap extends PApplet {
-    // Less than this threshold is a light earthquake
+    // Less than this threshold is a light oop.module3.earthquake
     public static final float THRESHOLD_MODERATE = 5;
-    // Less than this threshold is a minor earthquake
+    // Less than this threshold is a minor oop.module3.earthquake
     public static final float THRESHOLD_LIGHT = 4;
     // You can ignore this.  It's to keep eclipse from generating a warning.
     private static final long serialVersionUID = 1L;
@@ -46,7 +46,7 @@ public class EarthquakeCityMap extends PApplet {
     private UnfoldingMap map;
 
     //feed with magnitude 2.5+ Earthquakes
-    private String earthquakesURL = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.atom";
+    private String earthquakesURL = "https://oop.module3.earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.atom";
 
     public static void main(String[] args) {
         EarthquakeCityMap eqcm = new EarthquakeCityMap();
@@ -69,7 +69,7 @@ public class EarthquakeCityMap extends PApplet {
 
         // The List you will populate with new SimplePointMarkers
         List<Marker> markers = new ArrayList<Marker>();
-        //Use provided parser to collect properties for each earthquake
+        //Use provided parser to collect properties for each oop.module3.earthquake
         //PointFeatures have a getLocation method
         List<PointFeature> earthquakes = ParseFeed.parseEarthquake(this, earthquakesURL);
 
@@ -106,8 +106,8 @@ public class EarthquakeCityMap extends PApplet {
         }
     }
 
-    // A suggested helper method that takes in an earthquake feature and
-    // returns a SimplePointMarker for that earthquake
+    // A suggested helper method that takes in an oop.module3.earthquake feature and
+    // returns a SimplePointMarker for that oop.module3.earthquake
     // TODO: Implement this method and call it from setUp, if it helps
     private SimplePointMarker createMarker(PointFeature feature) {
         // finish implementing and use this method, if it helps.

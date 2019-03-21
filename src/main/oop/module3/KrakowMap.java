@@ -1,4 +1,4 @@
-package earthquake;
+package oop.module3;
 
 import de.fhpotsdam.unfolding.UnfoldingMap;
 import de.fhpotsdam.unfolding.data.Feature;
