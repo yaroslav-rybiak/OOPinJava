@@ -1,4 +1,4 @@
-package oop.module3.parsing;
+package oop.parsing;
 
 import de.fhpotsdam.unfolding.data.Feature;
 import de.fhpotsdam.unfolding.data.PointFeature;

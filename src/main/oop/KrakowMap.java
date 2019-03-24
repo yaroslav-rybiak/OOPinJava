@@ -1,4 +1,4 @@
-package oop.module3;
+package oop;
 
 import de.fhpotsdam.unfolding.UnfoldingMap;
 import de.fhpotsdam.unfolding.data.Feature;
