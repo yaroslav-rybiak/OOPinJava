@@ -15,8 +15,13 @@ import processing.core.PApplet;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class EarthquakeCityMap extends PApplet {
+
+    private int r = 255;
+    private int g = 255;
+    private int b = 255;
 
     //feed with magnitude 2.5+ Earthquakes
     private String earthquakesURL = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.atom";
@@ -83,7 +88,14 @@ public class EarthquakeCityMap extends PApplet {
         background(0);
         map.draw();
         addKey();
+        drawRectangle(r, g, b);
+    }
 
+    public void drawRectangle(int r, int g, int b) {
+        pushStyle();
+        fill(r, g, b);
+        rect(500, 100, 50, 50);
+        popStyle();
     }
 
     /**
@@ -121,6 +133,19 @@ public class EarthquakeCityMap extends PApplet {
         // TODO: Implement this method
         // Hint: You probably want a helper method or two to keep this code
         // from getting too long/disorganized
+        if(mouseX > 500 && mouseX < 550 && mouseY > 100 && mouseY < 150) {
+            Random random = new Random();
+            int dice = random.nextInt(3);
+            if(dice == 0) {
+                r = random.nextInt(256);
+            } else if (dice == 1) {
+                g = random.nextInt(256);
+            } else {
+                b  = random.nextInt(256);
+            }
+            System.out.println(dice);
+            System.out.println(r + ", " + g + ", " + b);
+        }
     }
 
     // loop over and unhide all markers
