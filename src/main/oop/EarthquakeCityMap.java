@@ -15,13 +15,8 @@ import processing.core.PApplet;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class EarthquakeCityMap extends PApplet {
-
-    private int r = 255;
-    private int g = 255;
-    private int b = 255;
 
     //feed with magnitude 2.5+ Earthquakes
     private String earthquakesURL = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.atom";
@@ -53,7 +48,7 @@ public class EarthquakeCityMap extends PApplet {
 
     public void setup() {
         size(900, 700);
-        map = new UnfoldingMap(this, 200, 50, 650, 600, new OpenStreetMap.OpenStreetMapProvider());
+        map = new UnfoldingMap(this, 0, 0, 900, 700, new OpenStreetMap.OpenStreetMapProvider());
         MapUtils.createDefaultEventDispatcher(this, map);
 
         List<Feature> countries = GeoJSONReader.loadData(this, countryFile);
@@ -76,9 +71,6 @@ public class EarthquakeCityMap extends PApplet {
             }
         }
 
-        //debugging
-        printQuakes();
-
         map.addMarkers(quakeMarkers);
         map.addMarkers(cityMarkers);
 
@@ -88,14 +80,7 @@ public class EarthquakeCityMap extends PApplet {
         background(0);
         map.draw();
         addKey();
-        drawRectangle(r, g, b);
-    }
 
-    public void drawRectangle(int r, int g, int b) {
-        pushStyle();
-        fill(r, g, b);
-        rect(500, 100, 50, 50);
-        popStyle();
     }
 
     /**
@@ -108,7 +93,6 @@ public class EarthquakeCityMap extends PApplet {
         if (lastSelected != null) {
             lastSelected.setSelected(false);
             lastSelected = null;
-
         }
         selectMarkerIfHover(quakeMarkers);
         selectMarkerIfHover(cityMarkers);
@@ -119,7 +103,13 @@ public class EarthquakeCityMap extends PApplet {
     // Make sure you do not select two markers.
     //
     private void selectMarkerIfHover(List<Marker> markers) {
-        // TODO: Implement this method
+        for (Marker marker : markers) {
+            if (marker.isInside(map, mouseX, mouseY)) {
+                lastSelected = (CommonMarker) marker;
+                lastSelected.setSelected(true);
+                break;
+            }
+        }
     }
 
     /**
@@ -130,25 +120,26 @@ public class EarthquakeCityMap extends PApplet {
      */
     @Override
     public void mouseClicked() {
-        // TODO: Implement this method
-        // Hint: You probably want a helper method or two to keep this code
-        // from getting too long/disorganized
-        if(mouseX > 500 && mouseX < 550 && mouseY > 100 && mouseY < 150) {
-            Random random = new Random();
-            int dice = random.nextInt(3);
-            if(dice == 0) {
-                r = random.nextInt(256);
-            } else if (dice == 1) {
-                g = random.nextInt(256);
-            } else {
-                b  = random.nextInt(256);
-            }
-            System.out.println(dice);
-            System.out.println(r + ", " + g + ", " + b);
+        if (lastClicked != null) {
+            lastClicked.setClicked(false);
+            lastClicked = null;
+            unhideMarkers();
+        } else {
+            lastClicked = (CommonMarker) quakeMarkers.get(0);
+            hideMarkers();
         }
     }
 
-    // loop over and unhide all markers
+    private void hideMarkers() {
+        for (Marker marker : quakeMarkers) {
+            marker.setHidden(true);
+        }
+
+        for (Marker marker : cityMarkers) {
+            marker.setHidden(true);
+        }
+    }
+
     private void unhideMarkers() {
         for (Marker marker : quakeMarkers) {
             marker.setHidden(false);
