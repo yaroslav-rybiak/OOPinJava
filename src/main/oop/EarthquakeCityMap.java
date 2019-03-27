@@ -125,7 +125,20 @@ public class EarthquakeCityMap extends PApplet {
             lastClicked = null;
             unhideMarkers();
         } else {
-            lastClicked = (CommonMarker) quakeMarkers.get(0); //TODO: find actual marker
+            for (Marker marker : quakeMarkers) {
+                if (marker.isInside(map, mouseX, mouseY)) {
+                    lastClicked = (CommonMarker) marker;
+                    lastClicked.setSelected(true);
+                    break;
+                }
+            }
+            for (Marker marker : cityMarkers) {
+                if (marker.isInside(map, mouseX, mouseY)) {
+                    lastClicked = (CommonMarker) marker;
+                    lastClicked.setSelected(true);
+                    break;
+                }
+            }
             hideMarkers();
         }
     }
