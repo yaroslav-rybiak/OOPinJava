@@ -79,7 +79,7 @@ public class EarthquakeCityMap extends PApplet {
     public void draw() {
         background(0);
         map.draw();
-        addKey();
+//        addKey();
 
     }
 
@@ -125,18 +125,20 @@ public class EarthquakeCityMap extends PApplet {
             lastClicked = null;
             unhideMarkers();
         } else {
-            lastClicked = (CommonMarker) quakeMarkers.get(0);
+            lastClicked = (CommonMarker) quakeMarkers.get(0); //TODO: find actual marker
             hideMarkers();
         }
     }
 
     private void hideMarkers() {
         for (Marker marker : quakeMarkers) {
-            marker.setHidden(true);
+            if (!marker.equals(lastClicked))
+                marker.setHidden(true);
         }
 
         for (Marker marker : cityMarkers) {
-            marker.setHidden(true);
+            if (!marker.equals(lastClicked))
+                marker.setHidden(true);
         }
     }
 
