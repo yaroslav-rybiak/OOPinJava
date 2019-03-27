@@ -99,7 +99,7 @@ public abstract class EarthquakeMarker extends CommonMarker {
         pg.rect(x, y, 150, 15);
         pg.textAlign(PConstants.LEFT, PConstants.CENTER);
         pg.fill(0, 0, 0);
-        pg.text(getTitle() + ", " + getDepth() + ", " + getMagnitude(), x + 2, y + 2);
+        pg.text(getTitle(), x + 2, y + 2);
         pg.popStyle();
 
     }
