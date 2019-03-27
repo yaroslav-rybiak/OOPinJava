@@ -90,7 +90,6 @@ public class EarthquakeCityMap extends PApplet {
 
     @Override
     public void mouseMoved() {
-        // clear the last selection
         if (lastSelected != null) {
             lastSelected.setSelected(false);
             lastSelected = null;
@@ -122,23 +121,15 @@ public class EarthquakeCityMap extends PApplet {
             lastClicked = null;
             unhideMarkers();
         } else {
-            cityClicked();
-            quakeClicked();
-        }
-    }
-
-    private void cityClicked() {
-        for (Marker marker : quakeMarkers) {
-            if (marker.isInside(map, mouseX, mouseY)) {
-                lastClicked = (CommonMarker) marker;
-                lastClicked.setSelected(true);
-                break;
+            if(cityClicked()) {
+                hideMarkers("city");
+            } else if (quakeClicked()) {
+                hideMarkers("quake");
             }
         }
-        hideMarkers("city");
     }
 
-    private void quakeClicked() {
+    private boolean cityClicked() {
         for (Marker marker : cityMarkers) {
             if (marker.isInside(map, mouseX, mouseY)) {
                 lastClicked = (CommonMarker) marker;
@@ -146,27 +137,56 @@ public class EarthquakeCityMap extends PApplet {
                 break;
             }
         }
-        hideMarkers("quake");
+        if (lastClicked != null) {
+            hideMarkers("city");
+            return true;
+        }
+        return false;
+    }
+
+    private boolean quakeClicked() {
+        for (Marker marker : quakeMarkers) {
+            if (marker.isInside(map, mouseX, mouseY)) {
+                lastClicked = (CommonMarker) marker;
+                lastClicked.setSelected(true);
+                break;
+            }
+        }
+        if (lastClicked != null) {
+            hideMarkers("quake");
+            return true;
+        }
+        return false;
     }
 
     private void hideMarkers(String clicked) {
-        if(clicked.equals("quake")) {
-            for (Marker marker : quakeMarkers) {
-                if (!marker.equals(lastClicked))
-                    marker.setHidden(true);
+        if (clicked.equals("city")) {
+            for (Marker quakeMarker : quakeMarkers) {
+                double threatCricle = ((EarthquakeMarker) quakeMarker).threatCircle();
+                double distance = quakeMarker.getDistanceTo(lastClicked.getLocation());
+                if (distance > threatCricle) {
+                    quakeMarker.setHidden(true);
+                } else {
+                    quakeMarker.setHidden(false);
+                }
             }
-            for (Marker marker : cityMarkers) {
-                if (!marker.equals(lastClicked)) //TODO: only hide city if it's not in quake's threatCircle()
-                    marker.setHidden(true);
+            for (Marker cityMarker : cityMarkers) {
+                if (!cityMarker.equals(lastClicked))
+                    cityMarker.setHidden(true);
             }
-        } else if(clicked.equals("city")) {
-            for (Marker marker : quakeMarkers) {
-                if (!marker.equals(lastClicked)) //TODO: only hide quake if city is not in their threatCircle()
-                    marker.setHidden(true);
+        }
+
+        else if (clicked.equals("quake")) {
+            for (Marker quakeMarker : quakeMarkers) {
+                if (!quakeMarker.equals(lastClicked))
+                    quakeMarker.setHidden(true);
             }
-            for (Marker marker : cityMarkers) {
-                if (!marker.equals(lastClicked))
-                    marker.setHidden(true);
+            for (Marker cityMarker : cityMarkers) {
+                double threatCricle = ((EarthquakeMarker)lastClicked).threatCircle();
+                double distance = lastClicked.getDistanceTo(cityMarker.getLocation());
+                if(distance > threatCricle) {
+                    cityMarker.setHidden(true);
+                }
             }
         }
     }
