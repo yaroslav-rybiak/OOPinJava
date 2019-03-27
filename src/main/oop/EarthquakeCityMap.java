@@ -18,6 +18,8 @@ import java.util.List;
 
 public class EarthquakeCityMap extends PApplet {
 
+//    public static String mbTilesString = "blankLight-1-3.mbtiles";
+
     //feed with magnitude 2.5+ Earthquakes
     private String earthquakesURL = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.atom";
 
@@ -49,6 +51,9 @@ public class EarthquakeCityMap extends PApplet {
     public void setup() {
         size(900, 700);
         map = new UnfoldingMap(this, 0, 0, 900, 700, new OpenStreetMap.OpenStreetMapProvider());
+//        map = new UnfoldingMap(this, 200, 50, 650, 600, new MBTilesMapProvider(mbTilesString));
+//        earthquakesURL = "2.5_week.atom";
+
         MapUtils.createDefaultEventDispatcher(this, map);
 
         List<Feature> countries = GeoJSONReader.loadData(this, countryFile);
@@ -83,10 +88,6 @@ public class EarthquakeCityMap extends PApplet {
 
     }
 
-    /**
-     * Event handler that gets called automatically when the
-     * mouse moves.
-     */
     @Override
     public void mouseMoved() {
         // clear the last selection
@@ -98,10 +99,6 @@ public class EarthquakeCityMap extends PApplet {
         selectMarkerIfHover(cityMarkers);
     }
 
-    // If there is a marker under the cursor, and lastSelected is null
-    // set the lastSelected to be the first marker found under the cursor
-    // Make sure you do not select two markers.
-    //
     private void selectMarkerIfHover(List<Marker> markers) {
         for (Marker marker : markers) {
             if (marker.isInside(map, mouseX, mouseY)) {
@@ -125,33 +122,52 @@ public class EarthquakeCityMap extends PApplet {
             lastClicked = null;
             unhideMarkers();
         } else {
-            for (Marker marker : quakeMarkers) {
-                if (marker.isInside(map, mouseX, mouseY)) {
-                    lastClicked = (CommonMarker) marker;
-                    lastClicked.setSelected(true);
-                    break;
-                }
-            }
-            for (Marker marker : cityMarkers) {
-                if (marker.isInside(map, mouseX, mouseY)) {
-                    lastClicked = (CommonMarker) marker;
-                    lastClicked.setSelected(true);
-                    break;
-                }
-            }
-            hideMarkers();
+            cityClicked();
+            quakeClicked();
         }
     }
 
-    private void hideMarkers() {
+    private void cityClicked() {
         for (Marker marker : quakeMarkers) {
-            if (!marker.equals(lastClicked))
-                marker.setHidden(true);
+            if (marker.isInside(map, mouseX, mouseY)) {
+                lastClicked = (CommonMarker) marker;
+                lastClicked.setSelected(true);
+                break;
+            }
         }
+        hideMarkers("city");
+    }
 
+    private void quakeClicked() {
         for (Marker marker : cityMarkers) {
-            if (!marker.equals(lastClicked))
-                marker.setHidden(true);
+            if (marker.isInside(map, mouseX, mouseY)) {
+                lastClicked = (CommonMarker) marker;
+                lastClicked.setSelected(true);
+                break;
+            }
+        }
+        hideMarkers("quake");
+    }
+
+    private void hideMarkers(String clicked) {
+        if(clicked.equals("quake")) {
+            for (Marker marker : quakeMarkers) {
+                if (!marker.equals(lastClicked))
+                    marker.setHidden(true);
+            }
+            for (Marker marker : cityMarkers) {
+                if (!marker.equals(lastClicked)) //TODO: only hide city if it's not in quake's threatCircle()
+                    marker.setHidden(true);
+            }
+        } else if(clicked.equals("city")) {
+            for (Marker marker : quakeMarkers) {
+                if (!marker.equals(lastClicked)) //TODO: only hide quake if city is not in their threatCircle()
+                    marker.setHidden(true);
+            }
+            for (Marker marker : cityMarkers) {
+                if (!marker.equals(lastClicked))
+                    marker.setHidden(true);
+            }
         }
     }
 
