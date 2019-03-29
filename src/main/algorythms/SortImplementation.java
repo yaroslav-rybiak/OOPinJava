@@ -3,7 +3,7 @@ package algorythms;
 public class SortImplementation {
 
     public static int[] collectionSort(int[] assorted) {
-        for (int i = 0; i < assorted.length - 2; i++) {
+        for (int i = 0; i < assorted.length - 1; i++) {
             int[] mins = findMin(assorted, i);
             int min = mins[0];
             int minIndex = mins[1];
