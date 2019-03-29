@@ -34,7 +34,7 @@ public class SearchImplementation {
         int min = 0;
         int max = wordsAarray.length - 1;
         while (min <= max) {
-            int med = (min + max) / 2;
+            int med = min / 2 + max / 2;
             int diff = word.compareTo(wordsAarray[med]);
             if (diff < 0) {
                 max = med - 1;
