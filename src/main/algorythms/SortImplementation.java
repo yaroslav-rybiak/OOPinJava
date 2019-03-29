@@ -4,19 +4,16 @@ public class SortImplementation {
 
     public static int[] collectionSort(int[] assorted) {
         for (int i = 0; i < assorted.length - 1; i++) {
-            int[] mins = findMin(assorted, i);
-            int min = mins[0];
-            int minIndex = mins[1];
+            int minIndex = findMinIndex(assorted, i);
             int temp = assorted[i];
-            assorted[i] = min;
+            assorted[i] = assorted[minIndex];
             assorted[minIndex] = temp;
 
         }
         return assorted;
     }
 
-    private static int[] findMin(int[] assorted, int start) {
-        int[] result = new int[2];
+    private static int findMinIndex(int[] assorted, int start) {
         int min = assorted[start];
         int minIndex = start;
         for (int i = start; i < assorted.length; i++) {
@@ -25,9 +22,6 @@ public class SortImplementation {
                 minIndex = i;
             }
         }
-        result[0] = min;
-        result[1] = minIndex;
-
-        return result;
+        return minIndex;
     }
 }
