@@ -10,6 +10,7 @@ import de.fhpotsdam.unfolding.marker.Marker;
 import de.fhpotsdam.unfolding.marker.MultiMarker;
 import de.fhpotsdam.unfolding.providers.Google;
 import de.fhpotsdam.unfolding.providers.MBTilesMapProvider;
+import de.fhpotsdam.unfolding.providers.OpenStreetMap;
 import de.fhpotsdam.unfolding.utils.MapUtils;
 import oop.parsing.ParseFeed;
 import processing.core.PApplet;
@@ -75,12 +76,12 @@ public class EarthquakeCityMap extends PApplet {
 
     public void setup() {
         // (1) Initializing canvas and map tiles
-        size(900, 700);
+        size(750, 700);
         if (offline) {
-            map = new UnfoldingMap(this, 0, 0, 900, 700, new MBTilesMapProvider(mbTilesString));
+            map = new UnfoldingMap(this, 0, 0, 750, 700, new MBTilesMapProvider(mbTilesString));
             earthquakesURL = "2.5_week.atom";  // The same feed, but saved August 7, 2015
         } else {
-            map = new UnfoldingMap(this, 0, 0, 900, 700, new Google.GoogleMapProvider());
+            map = new UnfoldingMap(this, 0, 0, 750, 700, new OpenStreetMap.OpenStreetMapProvider());
             // IF YOU WANT TO TEST WITH A LOCAL FILE, uncomment the next line
             //earthquakesURL = "2.5_week.atom";
         }
@@ -92,7 +93,7 @@ public class EarthquakeCityMap extends PApplet {
         //earthquakesURL = "test2.atom";
 
         // Uncomment this line to take the quiz
-        //earthquakesURL = "quiz2.atom";
+        earthquakesURL = "quiz2.atom";
 
 
         // (2) Reading in earthquake data and geometric properties
@@ -165,10 +166,10 @@ public class EarthquakeCityMap extends PApplet {
         //     NOTE: Country markers are not added to the map.  They are used
         //           for their geometric properties
         map.addMarkers(quakeMarkers);
-//        map.addMarkers(cityMarkers);
+        map.addMarkers(cityMarkers);
         map.addMarkers(airportMarkers);
 
-//        sortAndPrint(10);
+        sortAndPrint(11);
     }  // End setup
 
     private static List<String> getRecordFromLine(String line) {
@@ -325,7 +326,7 @@ public class EarthquakeCityMap extends PApplet {
         int xbase = 25;
         int ybase = 50;
 
-        rect(xbase, ybase, 150, 250);
+        rect(xbase, ybase, 150, 270);
 
         fill(0);
         textAlign(LEFT, CENTER);
@@ -366,8 +367,14 @@ public class EarthquakeCityMap extends PApplet {
         text("Shallow", xbase + 50, ybase + 140);
         text("Intermediate", xbase + 50, ybase + 160);
         text("Deep", xbase + 50, ybase + 180);
-
         text("Past hour", xbase + 50, ybase + 200);
+
+        fill(color(0, 0, 0));
+        ellipse(xbase + 35, ybase + 240, 6, 6);
+
+        fill(0, 0, 0);
+        textAlign(LEFT, CENTER);
+        text("Airport", xbase + 50, ybase + 240);
 
         fill(255, 255, 255);
         int centerx = xbase + 35;
