@@ -55,9 +55,10 @@ public abstract class EarthquakeMarker extends CommonMarker implements Comparabl
     // abstract method implemented in derived classes
     public abstract void drawEarthquake(PGraphics pg, float x, float y);
 
-     public int compareTo(EarthquakeMarker marker) {
-         return Math.round(this.getMagnitude() - marker.getMagnitude());
-     }
+    @Override
+    public int compareTo(EarthquakeMarker marker) {
+        return -Float.compare(this.getMagnitude(), marker.getMagnitude());
+    }
 
     // calls abstract method drawEarthquake and then checks age and draws X if needed
     @Override
