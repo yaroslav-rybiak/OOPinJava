@@ -3,7 +3,7 @@ package oop;
 import processing.core.PApplet;
 import de.fhpotsdam.unfolding.UnfoldingMap;
 import de.fhpotsdam.unfolding.utils.MapUtils;
-import parsing.ParseFeed;
+import oop.parsing.ParseFeed;
 import de.fhpotsdam.unfolding.providers.*;
 import de.fhpotsdam.unfolding.providers.Google.*;
 
