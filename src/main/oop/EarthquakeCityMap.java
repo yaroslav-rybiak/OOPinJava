@@ -14,10 +14,11 @@ import de.fhpotsdam.unfolding.utils.MapUtils;
 import oop.parsing.ParseFeed;
 import processing.core.PApplet;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * EarthquakeCityMap
@@ -65,6 +66,9 @@ public class EarthquakeCityMap extends PApplet {
     // A List of country markers
     private List<Marker> countryMarkers;
 
+    // A List of airport markers
+    private List<Marker> airportMarkers;
+
     // NEW IN MODULE 5
     private CommonMarker lastSelected;
     private CommonMarker lastClicked;
@@ -73,10 +77,10 @@ public class EarthquakeCityMap extends PApplet {
         // (1) Initializing canvas and map tiles
         size(900, 700);
         if (offline) {
-            map = new UnfoldingMap(this, 200, 50, 650, 600, new MBTilesMapProvider(mbTilesString));
+            map = new UnfoldingMap(this, 0, 0, 900, 700, new MBTilesMapProvider(mbTilesString));
             earthquakesURL = "2.5_week.atom";  // The same feed, but saved August 7, 2015
         } else {
-            map = new UnfoldingMap(this, 200, 50, 650, 600, new Google.GoogleMapProvider());
+            map = new UnfoldingMap(this, 0, 0, 900, 700, new Google.GoogleMapProvider());
             // IF YOU WANT TO TEST WITH A LOCAL FILE, uncomment the next line
             //earthquakesURL = "2.5_week.atom";
         }
@@ -118,6 +122,42 @@ public class EarthquakeCityMap extends PApplet {
             }
         }
 
+        //reading airports from CSV and storing data in a list of lists of strings
+        List<Feature> airports = new ArrayList<>();
+        airportMarkers = new ArrayList<>();
+        List<List<String>> airRrecords = new ArrayList<>();
+        try (Scanner scanner = new Scanner(new File("data/airports.dat"))) {
+            while (scanner.hasNextLine()) {
+                airRrecords.add(getRecordFromLine(scanner.nextLine()));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        //converting list of lists of strings to features
+        for(List<String> line: airRrecords) {
+            float latitude = 0;
+            float longitude = 0;
+            try {
+                latitude = Float.valueOf(line.get(6));
+                longitude = Float.valueOf(line.get(7));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            if(latitude != 0 && longitude != 0) {
+                Location airportLocation = new Location(latitude, longitude);
+                Feature airportFeature = new PointFeature(airportLocation);
+                airportFeature.addProperty("name", line.get(1));
+                airportFeature.addProperty("code3", line.get(4));
+                airports.add(airportFeature);
+            }
+        }
+
+        //creating markers from features
+        for (Feature feature : airports) {
+            airportMarkers.add(new AirportMarker(feature));
+        }
+
         // could be used for debugging
         // printQuakes();
 
@@ -125,14 +165,26 @@ public class EarthquakeCityMap extends PApplet {
         //     NOTE: Country markers are not added to the map.  They are used
         //           for their geometric properties
         map.addMarkers(quakeMarkers);
-        map.addMarkers(cityMarkers);
+//        map.addMarkers(cityMarkers);
+        map.addMarkers(airportMarkers);
 
-        sortAndPrint(10);
+//        sortAndPrint(10);
     }  // End setup
+
+    private static List<String> getRecordFromLine(String line) {
+        List<String> values = new ArrayList<>();
+        try (Scanner rowScanner = new Scanner(line)) {
+            rowScanner.useDelimiter(",");
+            while (rowScanner.hasNext()) {
+                values.add(rowScanner.next());
+            }
+        }
+        return values;
+    }
 
 
     public void draw() {
-        background(0);
+//        background(0);
         map.draw();
         addKey();
 
@@ -144,7 +196,7 @@ public class EarthquakeCityMap extends PApplet {
         quakeArray = quakeMarkers.toArray(quakeArray);
         Arrays.sort(quakeArray);
         if (quakeArray.length < numToPrint) numToPrint = quakeArray.length;
-        for(int i = 0; i < numToPrint; i++) {
+        for (int i = 0; i < numToPrint; i++) {
             System.out.println(quakeArray[i]);
         }
     }
