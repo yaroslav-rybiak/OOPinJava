@@ -44,19 +44,17 @@ public class SortImplementationTest {
 
     @Test
     public void testMergeSort() {
-        int[] assorted1 = new int[5];
-        assorted1[0] = 8;
-        assorted1[1] = 1;
-        assorted1[2] = 29;
-        assorted1[3] = 22;
-        assorted1[4] = 15;
+        int[] arr1 = {8, 1, 29, 22, 15};
+        mergeSort(arr1, 0, 4);
+        assertEquals(1, arr1[0]);
+        assertEquals(8, arr1[1]);
+        assertEquals(15, arr1[2]);
+        assertEquals(22, arr1[3]);
+        assertEquals(29, arr1[4]);
 
-        int[] sorted1 = mergeSort(assorted1);
+        int[] arr2 = {1};
+        mergeSort(arr1, 0, 0);
+        assertEquals(1, arr2[0]);
 
-        assertEquals(1, sorted1[0]);
-        assertEquals(8, sorted1[1]);
-        assertEquals(15, sorted1[2]);
-        assertEquals(22, sorted1[3]);
-        assertEquals(29, sorted1[4]);
     }
 }
