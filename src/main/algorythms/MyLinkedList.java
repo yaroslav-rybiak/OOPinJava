@@ -1,15 +1,15 @@
 package com.ubs.cea;
 
 public class MyLinkedList<E> {
-    ListNode head;
-    ListNode last;
-    ListNode tail;
+    private ListNode head;
+    private ListNode last;
+    private ListNode tail;
     private int size;
 
     public MyLinkedList() {
         size = 0;
-        head = new ListNode(null);
-        tail = new ListNode(null);
+        head = new ListNode<E>(null);
+        tail = new ListNode<E>(null);
         head.next = tail;
         tail.prev = head;
     }
@@ -24,7 +24,7 @@ public class MyLinkedList<E> {
             head.next = last;
             tail.prev = last;
         } else {
-            ListNode newNode = new ListNode(value);
+            ListNode newNode = new ListNode<>(value);
             newNode.prev = last;
             newNode.next = tail;
             last.next = newNode;
@@ -37,14 +37,35 @@ public class MyLinkedList<E> {
         return size;
     }
 
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        ListNode node = head.next;
+        while (node.hasNext()) {
+            sb.append(node);
+            if (!node.next.equals(tail)) {
+                sb.append(", ");
+            }
+            node = node.next;
+        }
+        return sb.toString();
+    }
+
 }
 
 class ListNode<E> {
     ListNode prev;
     ListNode next;
-    E value;
+    private E value;
 
-    public ListNode(E value) {
+    ListNode(E value) {
         this.value = value;
+    }
+
+    public String toString() {
+        return String.valueOf(value);
+    }
+
+    boolean hasNext() {
+        return next != null;
     }
 }
